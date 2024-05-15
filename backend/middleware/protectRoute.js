@@ -10,7 +10,8 @@ const protectRoute=async (req,res,next)=>{
 		}
 
         //Decode that token 
-		const decoded = jwt.verify(token, process.env.JWT_SECRET);//JWT secret was used to sign the document and now we will use this to verify.
+		const decoded = jwt.verify(token, process.env.JWT_SECRET);//JWT secret was used to sign the document and 
+        //now we will use this to verify/decode the token. 
 
         //Return when decoded value is false
 		if (!decoded) {

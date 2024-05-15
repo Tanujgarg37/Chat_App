@@ -2,8 +2,10 @@ import jwt from "jsonwebtoken";
 
 const generateTokenAndSetCookie=(userId,res)=>{
     //Creating token
-    //jwt.sign takes some payload and embeds below information into jwt token.JWT_Secret will be the key to sign the token and 
-    //create a digital signature.and when we want to verify this token we will use payload as {userId}
+    //jwt.sign takes some payload and embeds below information i.e. in this case userId into jwt token.JWT_Secret 
+    //will be the key to sign the token and create a digital signature and 
+    //when we want to verify this token we will use payload as {userId}
+    
     const token = jwt.sign({ userId }, process.env.JWT_SECRET, {
 		expiresIn: "15d",
 	});

@@ -12,13 +12,16 @@ export const signup=async(req,res)=>{
 
         //Checking user exist in our database
         const user=await User.findOne({username});//Checks if this user exist in our database or not.
+        
         if (user) {
 			return res.status(400).json({ error: "Username already exists" });
 		}
 
         //If user does not exist we create a new user.
         //Hash Password here
-        const salt = await bcrypt.genSalt(10);//Higher the value i.e. 10 is more will be secure but if you put 50 instead of 10 it will become slow
+        const salt = await bcrypt.genSalt(10);//Higher the value i.e. 10 is more,more will be our password secure 
+        // but if you put 50 instead of 10 it will become slow as now more complex type hashed password will be created and thus take 
+        // time in creation as well as comparision.
 		const hashedPassword = await bcrypt.hash(password, salt);//password getting hashed with salt created in previous step.
 
         //Creating user with unique profile avator pic
@@ -34,7 +37,7 @@ export const signup=async(req,res)=>{
 		});
 
         if(newUser){
-            //Generating JWT tokens here
+            //Generating JWT tokens here for each user identity.
             generateTokenAndSetCookie(newUser._id, res);
              //Saving this user
             await newUser.save();
@@ -53,16 +56,16 @@ export const signup=async(req,res)=>{
     }catch(error){
         //For debugging 
         console.log("Error in signup controller", error.message);
-        res.status(500).json({ error: "Internal Server Error" });
+        res.status(500).json({ error: "Internal Server Error in signup" });
     }
-}
+};
 
 
 export const login=async (req,res)=>{
     try {
         //Getting values
 		const { username, password } = req.body;
-        //Finding the user
+        //Finding the user in our database
         const user=await User.findOne({username});
         
         //Checkign if password is correct
@@ -88,7 +91,7 @@ export const login=async (req,res)=>{
 		console.log("Error in login controller", error.message);
 		res.status(500).json({ error: "Internal Server Error" });
 	}
-}
+};
 
 export const logout=async(req,res)=>{
     try{
@@ -98,5 +101,5 @@ export const logout=async(req,res)=>{
         console.log("Error in logout controller", error.message);
 		res.status(500).json({ error: "Internal Server Error" });
     }
-}
+};
 

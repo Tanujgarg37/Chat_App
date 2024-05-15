@@ -4,6 +4,7 @@ import io from "socket.io-client";
 
 const SocketContext = createContext();
 
+// eslint-disable-next-line react-refresh/only-export-components
 export const useSocketContext = () => {
 	return useContext(SocketContext);
 };
@@ -15,7 +16,7 @@ export const SocketContextProvider = ({ children }) => {
 
 	useEffect(() => {
 		if (authUser) {
-			const socket = io("http://localhost:8800", {
+			const socket = io("https://chat-app-9vf1.onrender.com/", {
 				query: {
 					userId: authUser._id,
 				},
@@ -28,7 +29,7 @@ export const SocketContextProvider = ({ children }) => {
 				setOnlineUsers(users);
 			});
 
-			return () => socket.close();
+			return () => socket.close(); //close the socket connection when component is unmounted.
 		} else {
 			if (socket) {
 				socket.close();
